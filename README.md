@@ -1,4 +1,6 @@
 # Official ProStore Certificates
+All of ProStore's official leaked enterprise certificates!  
+Sources for these certificates include: [Loyahdev](https://github.com/loyahdev/certificates), [NezusHub](https://nezushub.vip/forums/public-certificates.7/), and [Eojoo](https://github.com/eojoo/free-ios-certificates).
 
 ---
 
@@ -13,3 +15,6 @@
 | Mylan Inc. | Enterprise Certificate | **❌ Revoked** | 12/01/23 05:40 | 11/01/26 05:40 |
 
 ---
+
+# Disclaimer
+Apple or the certificate owner may revoke any of our Enterprise Developer Certificates at any time, causing apps signed with revoked certificates to stop working on iOS devices. Please make sure you have installed the [Anti-Revoke DNS](https://github.com/esigncert/khoindvn/releases/download/DNS/signed_khoindvn.mobileconfig). Use of shared Enterprise Certificates must comply with Apple’s terms and policies. Contributors and maintainers of this repository are not responsible for any misuse, policy violations, or resulting damages, losses, or legal consequences.
