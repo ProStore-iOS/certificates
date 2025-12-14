@@ -49,7 +49,6 @@ def clean_value(raw):
     """Clean and normalize values."""
     if raw is None:
         return ""
-    # Remove extra whitespace
     v = re.sub(r'\s+', ' ', raw).strip()
     return v
 
@@ -134,19 +133,68 @@ def parse_html(html):
     
     return data
 
-def convert_date_format(date_str):
-    """Convert date from '08/02/23 06:07' to '08/02/23 06:07' (same format, just ensure consistency)."""
-    try:
-        # Parse the date
-        dt = datetime.strptime(date_str, "%m/%d/%y %H:%M")
-        # Return in the same format
-        return dt.strftime("%m/%d/%y %H:%M")
-    except:
+def convert_to_dd_mm_yy(date_str):
+    """Convert date to DD/MM/YY HH:mm format."""
+    # Remove any timezone indicators or extra text
+    date_str = re.sub(r'\(.*?\)', '', date_str).strip()
+    
+    # List of possible date formats to try
+    date_formats = [
+        "%m/%d/%y %H:%M",    # 08/02/23 06:07
+        "%d/%m/%y %H:%M",    # 02/08/23 06:07
+        "%Y/%m/%d %H:%M",    # 2023/08/02 06:07
+        "%Y-%m-%d %H:%M:%S", # 2023-08-02 06:07:00
+        "%d %b %Y %H:%M",    # 02 Aug 2023 06:07
+        "%b %d, %Y %H:%M",   # Aug 02, 2023 06:07
+        "%m/%d/%Y %H:%M",    # 08/02/2023 06:07
+        "%d/%m/%Y %H:%M",    # 02/08/2023 06:07
+    ]
+    
+    for fmt in date_formats:
         try:
-            dt = datetime.strptime(date_str, "%d/%m/%y %H:%M")
-            return dt.strftime("%m/%d/%y %H:%M")
-        except:
-            return date_str
+            dt = datetime.strptime(date_str, fmt)
+            # Convert to DD/MM/YY HH:mm format
+            return dt.strftime("%d/%m/%y %H:%M")
+        except ValueError:
+            continue
+    
+    # If no format matches, try to extract date parts with regex
+    date_patterns = [
+        r'(\d{1,2})/(\d{1,2})/(\d{2,4})\s+(\d{1,2}):(\d{2})',  # MM/DD/YY HH:MM or DD/MM/YY HH:MM
+        r'(\d{1,2})/(\d{1,2})/(\d{2,4})',  # Just date without time
+    ]
+    
+    for pattern in date_patterns:
+        match = re.search(pattern, date_str)
+        if match:
+            try:
+                if len(match.groups()) >= 5:  # Has time
+                    month, day, year, hour, minute = match.groups()[:5]
+                else:  # Only date
+                    month, day, year = match.groups()[:3]
+                    hour, minute = "00", "00"
+                
+                # Determine if format is MM/DD or DD/MM
+                if int(month) > 12:  # Month can't be >12, so this must be DD/MM
+                    day, month = month, day
+                
+                # Convert 2-digit year to proper format
+                if len(year) == 2:
+                    year = int(year)
+                    if year < 50:  # 00-49 = 2000-2049
+                        year = 2000 + year
+                    else:  # 50-99 = 1950-1999
+                        year = 1900 + year
+                else:
+                    year = int(year)
+                
+                dt = datetime(year, int(month), int(day), int(hour), int(minute))
+                return dt.strftime("%d/%m/%y %H:%M")
+            except:
+                pass
+    
+    # If all else fails, return original
+    return date_str
 
 def get_certificate_status(cert_name):
     """Check the status of a single certificate."""
@@ -169,7 +217,7 @@ def get_certificate_status(cert_name):
         with open(password_file, 'r') as f:
             password = f.read().strip()
     else:
-        password = "nezushub.vip"  # Default password
+        password = "nezushub.vip"
     
     try:
         with requests.Session() as session:
@@ -181,11 +229,11 @@ def get_certificate_status(cert_name):
             effective = data.get("mobileprovision", {}).get("effective", "Unknown")
             expiration = data.get("mobileprovision", {}).get("expiration", "Unknown")
             
-            # Convert dates to proper format
+            # Convert dates to DD/MM/YY HH:mm format
             if effective != "Unknown":
-                effective = convert_date_format(effective)
+                effective = convert_to_dd_mm_yy(effective)
             if expiration != "Unknown":
-                expiration = convert_date_format(expiration)
+                expiration = convert_to_dd_mm_yy(expiration)
             
             return {
                 "status": "Valid" if status == "Valid" else "Revoked",
@@ -220,7 +268,7 @@ def parse_readme_table(readme_content):
             break
         
         # Parse row
-        cells = [cell.strip() for cell in line.split('|')[1:-1]]  # Remove empty first/last
+        cells = [cell.strip() for cell in line.split('|')[1:-1]]
         
         if len(cells) >= 5:
             cert_info = {
@@ -244,22 +292,32 @@ def update_readme_table(certificates, lines):
         idx = cert['line_index']
         row_parts = updated_lines[idx].split('|')
         
-        # Update status
-        if '✅' in cert['status']:
+        # Update status (preserve emoji formatting)
+        if cert.get('status', '').lower() == 'valid':
             new_status = '✅ Signed'
-        elif '❌' in cert['status'] or cert['status'] == 'Revoked':
+        elif cert.get('status', '').lower() == 'revoked':
             new_status = '❌ Revoked'
         else:
-            new_status = cert['status']
+            # Keep existing status if not determined
+            new_status = row_parts[3].strip()
         
-        # Update dates
-        valid_from = cert['valid_from'] if cert['valid_from'] != 'Unknown' else row_parts[4].strip()
-        valid_to = cert['valid_to'] if cert['valid_to'] != 'Unknown' else row_parts[5].strip()
+        # Update dates, use existing values if new ones are Unknown
+        valid_from = cert.get('valid_from', 'Unknown')
+        if valid_from == 'Unknown':
+            valid_from = row_parts[4].strip()
         
-        # Reconstruct row
+        valid_to = cert.get('valid_to', 'Unknown')
+        if valid_to == 'Unknown':
+            valid_to = row_parts[5].strip()
+        
+        # Reconstruct row with proper spacing
         row_parts[3] = f" {new_status} "
         row_parts[4] = f" {valid_from} "
         row_parts[5] = f" {valid_to} "
+        
+        # Ensure we have the right number of columns
+        if len(row_parts) > 7:  # Includes download link
+            row_parts[6] = f" {cert.get('download', row_parts[6].strip())} "
         
         updated_lines[idx] = '|'.join(row_parts)
     
@@ -269,14 +327,15 @@ def update_recommended_cert(lines, certificates):
     """Update the recommended certificate section."""
     for i, line in enumerate(lines):
         if 'Recommend Certificate' in line and i + 1 < len(lines):
-            # Find which certificate is recommended
             next_line = lines[i + 1].strip()
             if 'China Telecommunications Corporation V2' in next_line:
-                # Find this certificate in our list
                 for cert in certificates:
-                    if 'China Telecommunications Corporation V2' in cert['company']:
-                        status = '✅ Signed' if cert['status'] == 'Valid' else '❌ Revoked'
-                        lines[i + 1] = f"**China Telecommunications Corporation V2 - {status}**"
+                    if 'China Telecommunications Corporation V2' in cert.get('company', ''):
+                        status = cert.get('status', '').lower()
+                        if status == 'valid':
+                            lines[i + 1] = f"**China Telecommunications Corporation V2 - ✅ Signed**"
+                        else:
+                            lines[i + 1] = f"**China Telecommunications Corporation V2 - ❌ Revoked**"
                         break
     
     return lines
@@ -315,6 +374,8 @@ def main():
             print(f"  📅 Valid To: {result['expiration']}")
         else:
             print(f"  ⚠️  Could not check status")
+            # Keep existing values
+            updated_certs.append(cert_info)
     
     # Update the README content
     updated_lines = update_readme_table(updated_certs, lines)
