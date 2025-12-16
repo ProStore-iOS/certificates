@@ -19,12 +19,14 @@ View the certificate manager [here](https://prostore-ios.github.io/web/cert.html
 ---
 
 # Recommend Certificate 
-**China Telecommunications Corporation V2 - ❌ Revoked**
+**China Telecommunications Corporation - ❌ Revoked**
 
 ---
 
 # Updates
 
+**16-12-25** Rename China Telecommunications Corporation V2.  
+**16-12-25** Remove expired certificates.  
 **14-12-25** Add Wasu Media & Network Co., Ltd. certificate from NabzClan 🥳!  
 **13-12-25** Add the China Telecommunications Corporation V2 certificate 🎉!  
 **11-12-25** Add the China Telecommunications Corporation certificate (2022).  
