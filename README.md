@@ -8,7 +8,7 @@ View the certificate manager [here](https://prostore-ios.github.io/web/cert.html
 
 | Company | Type | Status | Valid From | Valid To | Download |
 |:--------|:----|:------|:----------|:--------|:--------|
-| Commission on Elections | Enterprise Certificate | ❌ Revoked | 2025-08-25 09:40:45 GMT+08:00 | 2026-08-25 09:40:45 GMT+08:00 | [Download](https://download-directory.github.io/?url=https%3A%2F%2Fgithub.com%2FProStore-iOS%2Fcertificates%2Ftree%2Fmain%2FCommission%20on%20Elections) |
+| Commission on Elections | Enterprise Certificate | ✅ Signed | 2025-08-25 09:40:45 GMT+08:00 | 2026-08-25 09:40:45 GMT+08:00 | [Download](https://download-directory.github.io/?url=https%3A%2F%2Fgithub.com%2FProStore-iOS%2Fcertificates%2Ftree%2Fmain%2FCommission%20on%20Elections) |
 | Etisalat - Emirates Telecommunications Corporation | Enterprise Certificate | ❌ Revoked | 2025-04-09 20:50:26 GMT+08:00 | 2026-04-09 20:50:26 GMT+08:00 | [Download](https://download-directory.github.io/?url=https%3A%2F%2Fgithub.com%2FProStore-iOS%2Fcertificates%2Ftree%2Fmain%2FEtisalat%20-%20Emirates%20Telecommunications%20Corporation) |
 | China Telecommunications Corporation | Enterprise Certificate | ❌ Revoked | 2025-04-18 16:18:10 GMT+08:00 | 2026-04-18 16:18:10 GMT+08:00 | [Download](https://download-directory.github.io/?url=https%3A%2F%2Fgithub.com%2FProStore-iOS%2Fcertificates%2Ftree%2Fmain%2FChina%20Telecommunications%20Corporation%20V2) |
 | Wuling Power Corporation | Enterprise Certificate | ❌ Revoked | 2025-05-14 17:44:48 GMT+08:00 | 2026-05-14 17:44:48 GMT+08:00 | [Download](https://download-directory.github.io/?url=https%3A%2F%2Fgithub.com%2FProStore-iOS%2Fcertificates%2Ftree%2Fmain%2FWuling+Power+Corporation) |
@@ -21,7 +21,7 @@ View the certificate manager [here](https://prostore-ios.github.io/web/cert.html
 ---
 
 # Recommend Certificate 
-**Commission on Elections - ❌ Revoked**
+**Commission on Elections - ✅ Signed**
 
 ---
 
