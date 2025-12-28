@@ -31,7 +31,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install requests beautifulsoup4 lxml
 
-    - name: Change P12 passwords to ProStore
+    - name: Normalize p12 passwords to ProStore
       run: |
         set -e
 
@@ -53,17 +53,25 @@ jobs:
 
           echo "🔁 Updating password for $p12_file"
 
-          tmp_p12="$dir/temp.p12"
+          pem_file="$dir/temp.pem"
+          new_p12="$dir/temp.p12"
 
-          # Re-encrypt the p12 with new password
+          # 1️⃣ Extract cert + key to PEM
           openssl pkcs12 \
             -in "$p12_file" \
-            -out "$tmp_p12" \
-            -passin pass:"$current_pass" \
-            -passout pass:ProStore \
-            -export
+            -out "$pem_file" \
+            -nodes \
+            -passin pass:"$current_pass"
 
-          mv "$tmp_p12" "$p12_file"
+          # 2️⃣ Re-export PEM to p12 with new password
+          openssl pkcs12 \
+            -export \
+            -in "$pem_file" \
+            -out "$new_p12" \
+            -passout pass:ProStore
+
+          mv "$new_p12" "$p12_file"
+          rm -f "$pem_file"
 
           echo "ProStore" > "$passfile"
 
