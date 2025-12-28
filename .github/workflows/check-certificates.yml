@@ -2,7 +2,7 @@
 name: Check Certificate Statuses
 on:
   schedule:
-    - cron: '*/15 * * * *'
+    - cron: '*/30 * * * *'
   # Also allow manual triggers
   workflow_dispatch:
   # Run on pushes to main branch (optional)
