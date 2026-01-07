@@ -1,14 +1,17 @@
+> # ⚠️ Certificates have moved to [NovaDev404/certificates](https://github.com/NovaDev404/certificates)!
+
 # Official ProStore Certificates
 All of ProStore's official leaked enterprise certificates!  
 Sources for these certificates include: [Loyahdev](https://github.com/loyahdev/certificates), [NezusHub](https://nezushub.vip/forums/public-certificates.7/)/[NabzClan](https://nabzclan.vip/resources/categories/ios-certificates.2/), [AppleJR](https://www.applejr.net/), and [Eojoo](https://github.com/eojoo/free-ios-certificates).  
 Most of these certificates originate from [AppleP12 Telegram](https://t.me/s/AppleP12).  
 Certificate statuses update every 15 minutes.  
-View the certificate manager [here](https://prostore-ios.github.io/cert.html)!
+View the certificate manager [here]([https://prostore-ios.github.io/cert.html](https://novadev.vip/resources/certificates/))!
 
 ---
 
 | Company | Type | Status | Valid From | Valid To | Download |
 |:--------|:----|:------|:----------|:--------|:--------|
+| **More certs [here](https://github.com/NovaDev404/certificates)** |
 | Commission on Elections (United politics) | Enterprise Certificate | ❌ Revoked | Aug 25 01:31:00 2025 GMT | Aug 25 01:31:00 2026 GMT | [Download](https://download-directory.github.io/?url=https%3A%2F%2Fgithub.com%2FProStore-iOS%2Fcertificates%2Ftree%2Fmain%2FCommission%20on%20Elections%20%28United%20politics%29) |
 | Commission on Elections (oadav) | Enterprise Certificate | ❌ Revoked | Apr 28 11:10:01 2025 GMT | Apr 17 16:19:09 2026 GMT | [Download](https://download-directory.github.io/?url=https%3A%2F%2Fgithub.com%2FProStore-iOS%2Fcertificates%2Ftree%2Fmain%2FCommission%20on%20Elections%20%28oadav%29) |
 | Commission on Elections (Committee Supervision) | Enterprise Certificate | ❌ Revoked | Aug 25 01:40:45 2025 GMT | Aug 25 01:40:45 2026 GMT | [Download](https://download-directory.github.io/?url=https%3A%2F%2Fgithub.com%2FProStore-iOS%2Fcertificates%2Ftree%2Fmain%2FCommission%20on%20Elections%20%28Committee%20Supervision%29) |
@@ -30,6 +33,8 @@ View the certificate manager [here](https://prostore-ios.github.io/cert.html)!
 
 # Updates
 
+**7-01-26** Moved to [NovaDev404/certificates](https://github.com/NovaDev404/certificates)!  
+**7-01-26** Sadly all of the Commission on Elections certificates have been revoked! 😭  
 **29-12-25** Add all three version of the Commission on Elections certificate 🎉!  
 **27-12-25** Add the Commission on Elections V2 certificate to unblacklist users!  
 **20-12-25** Add the Commission on Elections certificate 🎉!  
